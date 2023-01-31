@@ -1,9 +1,27 @@
 package ru.otus.java.hw4FindAccount;
 
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+
+class BankSet {
+    private Map<Client, List<ClientAccount>> clients = new HashMap<>(); // у вас было написано private final,
+    // но через константу переменная класса не создавалась
+    private Map<ClientAccount, Client> accounts = new HashMap<>();
+
+
+    public BankSet(Map<Client, List<ClientAccount>> clients, Map<ClientAccount, Client> accounts) {
+        this.clients = clients;
+        this.accounts = accounts;
+    }
+    public List <ClientAccount> getAccounts (Client client) {
+        return client.getClientAccounts();
+    }
+    public Client findClient(ClientAccount accountNumber) {
+        Client showClient = null;
+            System.out.println("Поиск клиента по номеру счета(use HashMap): "+accounts.get(accountNumber));
+        return showClient;
+    }
+}
 
 class Bank {
     private ArrayList<Client> clients;
@@ -19,11 +37,11 @@ class Bank {
     public Client findClient(ClientAccount accountNumber) {
        Client showClient = null;
         for (int i = 0; i < clients.size(); i++) {
-            ArrayList<ClientAccount> listAccount = clients.get(i).checkClientAccount();
+           // ArrayList<ClientAccount> listAccount = clients.get(i).checkClientAccount();
+            List<ClientAccount> listAccount = clients.get(i).getClientAccounts(); /*переделала с использованием этого метода.
+            пока не сравнила, что они практически идентичны, не обращала внимания. */
             for (int j = 0; j < clients.get(i).getNumOfAccounts(); j++) {
-               // System.out.println(listAccount);
                 ClientAccount currentAccount = listAccount.get(j);
-                //System.out.println("number "+accountNumber);
                 if (accountNumber.equals(currentAccount)) {
                    showClient = clients.get(i);
                    //System.out.println(clients.get(i));
@@ -131,16 +149,35 @@ public class FindAccount {
         Bank bank = new Bank(clients);
         var client1accounts = bank.getAccounts(client1);
         var client2accounts = bank.getAccounts(client2);
-
-
         var accountsofClient1 = bank.findClient (new ClientAccount(2,30));// Julia (номер счета)
         var accountofClient2 = bank.findClient (new ClientAccount(4,30));//Max
-        
+
         System.out.println("Счета 1 клиента: "+client1accounts);
         System.out.println("Счета 2 клиента: "+client2accounts);
         System.out.println("Поиск клиента по счету 2: "+accountsofClient1);
         System.out.println("Поиск клиента по счету 4: "+accountofClient2);
-        }
+
+        System.out.println("========использование HashSet======");
+        Map <Client, List <ClientAccount>> clientsMap = new HashMap<>();
+        Map <ClientAccount, Client> accountsMap = new HashMap<>();
+        clientsMap.put(client1, client1Account);
+        clientsMap.put(client2, client2accounts);
+        accountsMap.put(new ClientAccount(1,20), client1);
+        accountsMap.put(new ClientAccount(2,30), client1);
+        accountsMap.put(new ClientAccount(3,20), client2);
+        accountsMap.put(new ClientAccount(4,30), client2);
+        accountsMap.put(new ClientAccount(5,3000), client2);
+
+
+        BankSet bankList = new BankSet(clientsMap, accountsMap);
+        var client1accountsBankList = bankList.getAccounts(client1);
+        System.out.println("Счета 1 клиента (use HashMap): "+client1accountsBankList);
+
+        var accountofClient1BankList = bankList.findClient(new ClientAccount(4,30));//Max)
+
+
+    }
+
 
     }
 
