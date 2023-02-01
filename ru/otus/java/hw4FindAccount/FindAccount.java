@@ -1,5 +1,6 @@
 package ru.otus.java.hw4FindAccount;
-
+//  code => inspect code
+// интерфейсы в методах (последний пример с урока по разбору кода)??
 
 import java.util.*;
 
@@ -20,6 +21,9 @@ class BankSet {
         Client showClient = null;
             System.out.println("Поиск клиента по номеру счета(use HashMap): "+accounts.get(accountNumber));
         return showClient;
+    }
+    public void addClientAccount(Client client, ClientAccount account) {
+        accounts.put(account, client);
     }
 }
 
@@ -71,10 +75,6 @@ class Client {
     public List <ClientAccount> getClientAccounts() {
         return this.clientAccounts;
     }
-    public ArrayList<ClientAccount> checkClientAccount () {
-        return (ArrayList<ClientAccount>) this.clientAccounts;
-    }
-
     public void addAccount(ClientAccount ac){
         clientAccounts.add(ac);
     }
