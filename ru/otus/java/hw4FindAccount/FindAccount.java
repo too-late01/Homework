@@ -24,6 +24,9 @@ class BankSet {
     }
     public void addClientAccount(Client client, ClientAccount account) {
         accounts.put(account, client);
+        List <ClientAccount> clientAccountAddition = clients.get(client);
+        clientAccountAddition.add(account);
+        clients.put(client, clientAccountAddition);
     }
 }
 
