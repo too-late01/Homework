@@ -27,30 +27,30 @@ public class Question {
     }
 
     public int getAnswer() {
-        // без try-with-resources
+        //  без try-with-resources
 //        Scanner scanner = new Scanner(System.in);
 //        System.out.print("Ваш ответ: ");
-//        // scanner.hasNextInt() - проверять можно ли безопасно вызвать сканнер, если да -
-//        // идет код, если нет то выводить сообщение пользователю что так нельзя
 //        if (scanner.hasNextInt()==false) {
 //            throw new IllegalArgumentException("Введите номер ответа (число, а не слово)");
 //        }int answer = scanner.nextInt();
 //
 //        return answer;
 // try-with-resources (вроде бы это он?)
+
+        System.out.print("Ваш ответ: ");
         int answer = 0;
         try (Scanner scanner = new Scanner(System.in)) {
-            System.out.print("Ваш ответ: ");
             if (scanner.hasNextInt()) {
                 answer = scanner.nextInt();
-                return answer;
             }
-        } catch (Exception notCorrectAnswerInput) {
-           notCorrectAnswerInput.printStackTrace(); //разве он не должен показать где произошла ошибка?
+            else {
+                throw new IllegalArgumentException("некорректный ввод ответа");
+            }
+        } catch (Exception NotCorrectAnswerInput) {
+            NotCorrectAnswerInput.printStackTrace();
+          //  System.out.println("некорректный ввод ответа");
         }
-        finally {System.out.println("некорректный ввод ответа");
-        }
-        return answer;
+       return answer;
     }
 
     public boolean showCorrectAnswer() {
